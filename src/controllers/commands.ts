@@ -1,12 +1,13 @@
 import * as fs from 'fs';
 
 import program = require('commander');
-import { copyFolder } from '../utils/futils';
+import { copyFolder, getDateFileName, zipDirectory } from '../utils/futils';
 import { newCommand } from './newcommand';
 import { CompositeLearningObject } from '../models/learningobjects';
 import { Portfolio } from '../models/portfolio';
 import { Course } from '../models/course';
 import * as path from 'path';
+const rmdir = require('rimraf');
 
 const root = path.dirname(__dirname);
 
@@ -49,9 +50,10 @@ export class Commands {
     } else {
       const rootLearningObject = createRoot(options);
       if (rootLearningObject) {
-        let site = 'public-site-uk';
+        let site = 'public-site';
         copyFolder(`${root}/assets`, site);
         rootLearningObject.publish(site);
+        zipDirectory(site, getDateFileName());
       } else {
         console.log('Cannot locate course.md or portfolio.yaml. Change to course folder and try again. ');
       }

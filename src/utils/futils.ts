@@ -1,11 +1,11 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as sh from 'shelljs';
+const archiver = require('archiver');
 import { Properties } from '../models/properties';
 import * as yaml from 'yamljs';
 
 const _ = require('lodash');
-const Jimp = require('jimp');
 
 sh.config.silent = true;
 
@@ -18,10 +18,7 @@ export function writeFile(folder: string, filename: string, contents: string): v
 
 export function readFile(path: string): string {
   if (fs.existsSync(path)) {
-    const array = fs
-      .readFileSync(path)
-      .toString()
-      .split('\n');
+    const array = fs.readFileSync(path).toString().split('\n');
     return array[0].replace('\r', '');
   } else {
     console.log('unable to locate ' + path);
@@ -31,10 +28,7 @@ export function readFile(path: string): string {
 
 export function readFullFile(path: string): string[] {
   if (fs.existsSync(path)) {
-    const array = fs
-      .readFileSync(path)
-      .toString()
-      .split('\n');
+    const array = fs.readFileSync(path).toString().split('\n');
     return array;
   } else {
     console.log('unable to locate ' + path);
@@ -79,7 +73,7 @@ export function getParentFolder(): string {
 }
 
 export function getDirectories(srcpath: string): string[] {
-  return fs.readdirSync(srcpath).filter(function(file) {
+  return fs.readdirSync(srcpath).filter(function (file) {
     return fs.statSync(path.join(srcpath, file)).isDirectory();
   });
 }
@@ -120,10 +114,7 @@ export function copyFolder(src: string, dest: string): void {
 export function getIgnoreList(): string[] {
   const ignoreList: string[] = [];
   if (fs.existsSync('mbignore')) {
-    const array = fs
-      .readFileSync('mbignore')
-      .toString()
-      .split('\n');
+    const array = fs.readFileSync('mbignore').toString().split('\n');
     for (let i = 0; i < array.length; i++) {
       ignoreList[i] = array[i].trim();
     }
@@ -160,17 +151,34 @@ export function readPropsFromTree(): Properties {
   return properties;
 }
 
-export function resizeImage(path: string) {
-  //  const isDisabled = disabled;
-  // Jimp.read(path, (err: any, lenna: any) => {
-  //   if (err) {
-  //     return;
-  //   }
-  //   // if (isDisabled == 'true') {
-  //   //   lenna.blur(5);
-  //   //   lenna.fade(0.7);
-  //   // }
-  //   lenna.resize(Jimp.AUTO, 200).write(path);
-  //   process.stdout.write('.');
-  // });
+export function resizeImage(path: string) {}
+
+export function zipDirectory(source: string, out: string) {
+  const archive = archiver('zip', { zlib: { level: 9 } });
+  const stream = fs.createWriteStream(out);
+
+  return new Promise((resolve, reject) => {
+    // @ts-ignore
+    archive
+      .directory(source, false)
+      .on('error', (err: any) => reject(err))
+      .pipe(stream);
+
+    stream.on('close', () => resolve());
+    archive.finalize();
+  });
+}
+
+export function getDateFileName() {
+  let ts = Date.now();
+
+  let date_ob = new Date(ts);
+  let date = date_ob.getDate();
+  let month = date_ob.getMonth() + 1;
+  let year = date_ob.getFullYear();
+  let hrs = date_ob.getHours();
+  let mins = date_ob.getMinutes();
+  let secs = date_ob.getSeconds();
+
+  return `${year}-${month}-${date}-${hrs}-${mins}.zip`;
 }
