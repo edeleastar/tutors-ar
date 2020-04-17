@@ -160,7 +160,7 @@ export function zipDirectory(courseTitle: string | undefined, source: string) {
     title = slugify(courseTitle, { lower: true });
   }
   const out = title + getDateFileName();
-  console.log(`Generating archive ... ${out}`);
+  console.log(`Generating archive ... ${out} (just a munite)`);
 
   const archive = archiver('zip', { zlib: { level: 9 } });
   const stream = fs.createWriteStream(out);
