@@ -1,0 +1,15 @@
+{% from "head-component/iconlink.njk" import iconlink %}
+
+{% macro home(lo, iswall) %}
+  <div class="uk-padding">
+    {% if iswall %}
+      {{ iconlink("index.html", "To the top level Topics for this Module", "moduleHome", "fa-4x") }}
+      {% elif (lo.parent.lotype == 'unit') %}
+      {{ iconlink("../../index.html", "To the top level Topics for this Module", "moduleHome", "fa-4x") }}
+      {% elif (lo.lotype == 'topic') %}
+      {{ iconlink("../index.html", "To the top level Topics for this Module", "moduleHome", "fa-4x") }}
+      {% elif (lo.properties.parent) %}
+      {{ iconlink(lo.properties.parent, "To the Programme home...", "programHome", "fa-4x") }}
+    {% endif %}
+  </div>
+{% endmacro %}

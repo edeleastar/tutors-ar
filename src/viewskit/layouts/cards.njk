@@ -1,0 +1,67 @@
+{% from "card-component/card.njk" import card %}
+{% from "card-component/panelvideo.njk" import panelvideo %}
+{% from "card-component/paneltalk.njk" import paneltalk %}
+
+{% macro panelVideoCards (los) %}
+  {% for lo in los %}
+    {{ panelvideo (lo) }}
+    <br>
+  {% endfor %}
+{% endmacro %}
+
+{% macro panelTalkCards (los) %}
+  {% for lo in los %}
+    {{ paneltalk (lo) }}
+    <br>
+  {% endfor %}
+{% endmacro %}
+
+{% macro unitCards (los) %}
+  {% for lo in los %}
+    {{ panelVideoCards (lo.panelVideos) }}
+    <div class="uk-card uk-card-body uk-background-default">
+      <h3 class="uk-card-title"> {{ lo.title }} </h3>
+      <hr>
+       <div class="uk-child-width-1-4@s uk-flex uk-flex-center" uk-grid uk-height-match="target: > div > .uk-card">
+          {% for lo in lo.standardLos %}
+            <div>
+              {{ card (lo, './' + lo.parentFolder + '/') }}
+            </div>
+          {% endfor %}
+       </div>
+     </div>
+    <hr class="uk-divider-icon">
+  {% endfor %}
+{% endmacro %}
+
+{% macro standardCards (los, isWall) %}
+  <div class="uk-container uk-padding-small">
+    <div class="uk-child-width-1-4@s uk-flex uk-flex-center" uk-grid uk-height-match="target: > div > .uk-card">
+      {% for lo in los %}
+        <div>
+          {% if (isWall == true) %}
+            {% if lo.parent.lotype == 'unit' %}
+              {{ card (lo, lo.parent.parentFolder + '/' + lo.parentFolder + '/') }}
+            {% elseif (lo.parent.lotype == 'course') %}
+              {{ card (lo, '../') }}
+            {% else %}
+              {{ card (lo, lo.parentFolder + '/') }}
+            {% endif %}
+          {% else %}
+            {{ card (lo, "./") }}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro topicCards(parent, los, isWall) %}
+  <div class="uk-container uk-padding-small">
+    {{ panelVideoCards (parent.panelVideos) }}
+    {{ panelTalkCards (parent.panelTalks) }}
+    {{ unitCards(parent.units) }}
+    {{ standardCards (parent.standardLos, false) }}
+    <hr class="uk-divider-icon">
+  </div>
+{% endmacro %}

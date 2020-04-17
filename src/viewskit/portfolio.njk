@@ -1,0 +1,20 @@
+{% from "head-component/header.njk" import header %}
+{% from "card-component/card.njk" import card %}
+{% from "layouts/cards.njk" import standardCards %}
+{% from "layouts/portfoliotoc.njk" import portfoliotoc %}
+
+{% extends "main.html" %}
+{% block content %}
+  {{ portfoliotoc(lo) }}
+  {{ header(lo) }}
+  {% for courseGroup in lo.courseGroups %}
+    <div class="uk-container uk-padding-small">
+      <div class="uk-card uk-card-body uk-background-default">
+        <h3 class="uk-card-title"> {{ courseGroup.title }} </h3>
+        <hr>
+        {{ standardCards(courseGroup.courses, false) }}
+      </div>
+      <hr class="uk-divider-icon">
+    </div>
+  {% endfor %}
+{% endblock %}

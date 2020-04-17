@@ -1,0 +1,20 @@
+{% from "head-component/header.njk" import header %}
+{% from "layouts/cards.njk" import standardCards %}
+{% from "layouts/toc.njk" import toc %}
+{% from "layouts/cards.njk" import panelVideoCards, panelTalkCards, unitCards %}
+
+{% set assetprefix = "./assets" %}
+
+{% extends "main.html" %}
+
+{% block content %}
+  {{ toc(lo) }}
+  {{ header(lo) }}
+
+  <div class="uk-container uk-padding-small">
+    {{ panelVideoCards (lo.panelVideos) }}
+    {{ panelTalkCards (lo.panelTalks) }}
+    {{ unitCards(lo.units) }}
+  </div>
+  {{ standardCards(lo.los, false) }}
+{% endblock %}

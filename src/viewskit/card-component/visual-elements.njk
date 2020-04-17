@@ -1,0 +1,31 @@
+{% from "styles.njk" import icons, iconColours, titles %}
+
+{% macro image (lo, path) %}
+  <div class="uk-card-body">
+    {% if (lo.properties.faPanelicon and lo.lotype == "course") %}
+      <i class="{{ lo.properties.faPanelicon }} fa-10x" style="color:{{ lo.properties.faColour }}"></i>
+    {% elseif (lo.absoluteLink and lo.lotype == "course") %}
+      <img src="{{ lo.properties.courseurl }}/{{ lo.img }}">
+    {% elseif (lo.img) %}
+      <img src="{{ path }}{{ lo.folder }}/{{ lo.img }}">
+    {% elseif (lo.properties.faPanelicon) %}
+      <i class="{{ lo.properties.faPanelicon }} fa-10x" style="color:{{ lo.properties.faColour }}"></i>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{% macro video (lo, path) %}
+  {% if (lo.videoid) and (lo.videoid != 'none') %}
+    <div class="uk-card-footer">
+      <div uk-lightbox>
+        <a class="uk-button uk-button-default" href="//www.youtube.com/watch?v={{lo.videoid}}"
+           data-caption="{{ lo.title }}">Play Video</a>
+      </div>
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro icon (type, size) %}
+  <i class="{{ icons[type] }} {{ size }}" style="color:{{ iconColours[type] }}"> </i>
+{% endmacro %}
+

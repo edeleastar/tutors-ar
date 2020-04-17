@@ -1,0 +1,15 @@
+{% from "lab-component/nav-bar.njk" import navBar %}
+{% from "lab-component/nav-body.njk" import navBody %}
+{% set assetprefix = "../../../assets" %}
+{% extends "mainlab.html" %}
+
+{% block content %}
+  {{ navBar(lo) }}
+  {{ navBody(lo) }}
+  <br>
+  <script>
+    {% include "js/lab.js" %}
+    {% include "js/main.js" %}
+  </script>
+
+{% endblock %}

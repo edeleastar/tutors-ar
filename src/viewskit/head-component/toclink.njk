@@ -1,0 +1,9 @@
+{% from "card-component/visual-elements.njk" import icon %}
+
+{% macro tocLink(lo) %}
+  <div class="uk-padding">
+    <a href="#offcanvas-usage" uk-toggle title="Table of Contents" pos="bottom" uk-tooltip>
+      {{ icon("toc", "fa-3x") }}
+    </a>
+  </div>
+{% endmacro %}

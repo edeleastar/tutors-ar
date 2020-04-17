@@ -1,0 +1,24 @@
+{% from "card-component/head-element.njk" import header, hover %}
+{% from "card-component/visual-elements.njk" import image, video %}
+{% from "card-component/text-elements.njk" import summary, ects %}
+{% from "card-component/url.njk" import urlStart, urlEnd %}
+
+{% macro card (lo, path) %}
+
+  {% set cardType = "uk-card-default" %}
+  {% if (lo.properties.highlight == true) %}
+    {% set cardType = "uk-card-secondary" %}
+  {% endif %}
+
+  <div class="uk-card {{ cardType }} {{ hover(lo) }} uk-card-small uk-text-center uk-text-baseline uk-animation-fade">
+    {{ urlStart(lo, path) }}
+    {{ header(lo) }}
+    {{ image(lo, path) }}
+    {{ urlEnd(lo) }}
+    {{ video(lo) }}
+    {{ summary(lo) }}
+    {{ ects(lo) }}
+  </div>
+
+
+{% endmacro %}
