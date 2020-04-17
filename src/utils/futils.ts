@@ -4,6 +4,7 @@ import * as sh from 'shelljs';
 const archiver = require('archiver');
 import { Properties } from '../models/properties';
 import * as yaml from 'yamljs';
+import slugify from 'slugify';
 
 const _ = require('lodash');
 
@@ -153,7 +154,14 @@ export function readPropsFromTree(): Properties {
 
 export function resizeImage(path: string) {}
 
-export function zipDirectory(source: string, out: string) {
+export function zipDirectory(courseTitle: string | undefined, source: string) {
+  let title = '';
+  if (courseTitle) {
+    title = slugify(courseTitle, { lower: true });
+  }
+  const out = title + getDateFileName();
+  console.log(`Generating archive ... ${out}`);
+
   const archive = archiver('zip', { zlib: { level: 9 } });
   const stream = fs.createWriteStream(out);
 
@@ -164,7 +172,10 @@ export function zipDirectory(source: string, out: string) {
       .on('error', (err: any) => reject(err))
       .pipe(stream);
 
-    stream.on('close', () => resolve());
+    stream.on('close', () => {
+      resolve();
+      console.log('Done')
+    });
     archive.finalize();
   });
 }
@@ -180,5 +191,5 @@ export function getDateFileName() {
   let mins = date_ob.getMinutes();
   let secs = date_ob.getSeconds();
 
-  return `${year}-${month}-${date}-${hrs}-${mins}.zip`;
+  return `-${year}-${month}-${date}-${hrs}-${mins}.zip`;
 }

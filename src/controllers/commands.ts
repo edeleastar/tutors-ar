@@ -7,6 +7,7 @@ import { CompositeLearningObject } from '../models/learningobjects';
 import { Portfolio } from '../models/portfolio';
 import { Course } from '../models/course';
 import * as path from 'path';
+import slugify from 'slugify';
 const rmdir = require('rimraf');
 
 const root = path.dirname(__dirname);
@@ -53,7 +54,7 @@ export class Commands {
         let site = 'public-site';
         copyFolder(`${root}/assets`, site);
         rootLearningObject.publish(site);
-        zipDirectory(site, getDateFileName());
+        zipDirectory(rootLearningObject.title, site);
       } else {
         console.log('Cannot locate course.md or portfolio.yaml. Change to course folder and try again. ');
       }
