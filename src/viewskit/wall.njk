@@ -8,7 +8,7 @@
 
 {% block content %}
   {% set wallName = titles[lo.los[0].lotype] %}
-  {{ toc(lo.course) }}
+  {{ toc(lo.course, './') }}
   {{ header(lo.course, true, "All " + wallName + "'s in Module") }}
   {{ standardCards(lo.los, true) }}
 {% endblock %}

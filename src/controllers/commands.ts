@@ -37,26 +37,19 @@ export class Commands {
     program
       .arguments('<file>')
       .version(require('../../package.json').version)
-      .option('-p, --private', 'Generate full private site')
-      .option('-u, --uikit', 'Generate UIKit based site (experimental)')
-      .option('-n, --new', 'Create a template course')
-      .option('-j, --json', 'Generate json only')
       .parse(process.argv);
   }
 
   exec(): void {
     const options = program.opts() as CommandOptions;
     options.rootPath = this.rootPath;
-    console.log('tutors-ts course web generator: ' + options.version);
+    console.log('tutors-ar course web archive generator: ' + options.version);
     if (options.new) {
       newCommand();
     } else {
       const rootLearningObject = createRoot(options);
       if (rootLearningObject) {
         let site = 'public-site-uk';
-        if (options.private) {
-          site = 'private-site-uk';
-        }
         copyFolder(`${root}/assets`, site);
         rootLearningObject.publish(site);
       } else {

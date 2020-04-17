@@ -6,7 +6,7 @@
 {% extends "main.html" %}
 
 {% block content %}
-  {{ toc(lo.parent) }}
+  {{ toc(lo.parent, "../") }}
   {{ header(lo) }}
   {{ topicCards(lo, lo.los, false) }}
 {% endblock %}
