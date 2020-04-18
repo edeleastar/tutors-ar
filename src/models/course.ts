@@ -40,7 +40,7 @@ export class Course extends CompositeLearningObject {
     const ignoreList = getYamlIgnoreList();
     if (!options) {
       this.los = this.los.filter(lo => ignoreList.indexOf(lo.folder!) < 0);
-    } else if (!options.private) {
+    } else if (!options.private && ignoreList) {
       this.los = this.los.filter(lo => ignoreList.indexOf(lo.folder!) < 0);
     }
     this.insertCourseRef(this.los);
