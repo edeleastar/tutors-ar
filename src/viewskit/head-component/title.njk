@@ -4,11 +4,7 @@
   <div class="uk-width-1-2@m  uk-card uk-card-default uk-padding-small">
     <div uk-grid>
       <div class="uk-width-1-5@m">
-        {% if (lo.properties.favicon and lo.lotype == 'portfolio') %}
-          <img src="./{{lo.properties.favicon}}" width="80" class="uk-border-rounded">
-        {% else %}
-          {{ courseIcon(lo) }}
-        {% endif %}
+        <img src="{{ lo.img }}" width="60">
       </div>
       <div class="uk-width-expand@m uk-text-left">
         <h2> {{ lo.title }} </h2>
@@ -18,6 +14,20 @@
           {% else %}
             {{ lo.properties.credits }}
           {% endif %}
+        </div>
+      </div>
+      <div class="uk-width-1-6@m">
+        <div class="uk-card uk-card-small uk-card-hover uk-text-center uk-padding-remove">
+          <a target=”_blank” href="https://github.com/edeleastar/tutors-ar">
+            <div>
+              <i class="fas fa-chalkboard-teacher fa-lg"></i>
+            </div>
+            <div class="uk-width-expand@m uk-text-left">
+              <div class="uk-text-muted uk-text-center" style="font-size:xx-small">
+                Tutors
+              </div>
+            </div>
+          </a>
         </div>
       </div>
     </div>
