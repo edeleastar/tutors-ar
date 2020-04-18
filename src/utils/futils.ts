@@ -5,6 +5,7 @@ const archiver = require('archiver');
 import { Properties } from '../models/properties';
 import * as yaml from 'yamljs';
 import slugify from 'slugify';
+import { reapLos } from '../models/loutils';
 
 const _ = require('lodash');
 
@@ -121,6 +122,11 @@ export function getIgnoreList(): string[] {
     }
   }
   return ignoreList;
+}
+
+export function getYamlIgnoreList(): string[] {
+  const yamlData = yaml.load('./properties.yaml');
+  return yamlData.ignore;
 }
 
 function readYaml(path: string): Properties {
