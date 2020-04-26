@@ -5,5 +5,6 @@ node_modules/
 !src/utilsjs/*.js
 !src/views/js/*.js
 !src/viewskit/js/*.js
+!src/assets/**
 npm-debug.log
 .vscode
